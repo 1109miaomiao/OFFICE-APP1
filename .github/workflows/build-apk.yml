@@ -16,6 +16,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Create wrapper if missing
+        run: |
+          if [ ! -f "gradlew" ]; then
+            echo "Gradlew missing, generating a new one..."
+            gradle wrapper
+          fi
+          chmod +x gradlew
+
       - name: Build with Gradle
         run: ./gradlew assembleDebug
 
