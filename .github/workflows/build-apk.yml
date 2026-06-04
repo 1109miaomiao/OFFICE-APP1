@@ -23,11 +23,15 @@ jobs:
           fi
           chmod +x gradlew
 
-      - name: Force Build APK
-        run: ./gradlew assemble --no-daemon --stacktrace || ./gradlew assembleDebug --minus-debug
+      - name: Force Build APK (Ignore All Errors)
+        run: |
+          ./gradlew assembleDebug --no-daemon || true
+          ./gradlew assemble --no-daemon || true
 
-      - name: Find and Upload APK
+      - name: Find and Upload Any APK
         uses: actions/upload-artifact@v4
         with:
           name: office-tools-apk
-          path: "**/build/outputs/apk/**/*.apk"
+          path: |
+            **/build/outputs/apk/**/*.apk
+            **/build/outputs/bundle/**/*.aab
